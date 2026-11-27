@@ -18,30 +18,28 @@
 :root {
   --fundo-principal: #f8fafc;
   --fundo-card:      rgba(255, 255, 255, 0.92);
-
   --azul-cobalto:    #0F3057;
   --azul-greco:      #1b4965;
   --azul-celeste:    #62b6cb;
-
   --pink-bouganville:#e61975;
   --pink-brilho:     #ff4097;
-
   --texto-escuro:    #0a192f;
   --texto-suave:     #2b4c6f;
   --borda-glass:     rgba(27, 73, 101, 0.2);
   --sombra-glow:     0 10px 30px rgba(27, 73, 101, 0.12);
-
   --fonte-nome:    'Cinzel Decorative', serif;
   --fonte-titulo:  'Cinzel', serif;
   --fonte-corpo:   'Montserrat', sans-serif;
 }
 
-/* Reset Base */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-/* Fundo azul no html: colore a barra do navegador (topo e rodapé) e a área de rolagem extra */
 html { scroll-behavior: smooth; background: #0F3057; }
+
+/* CORREÇÃO DO PATTERN: o body não pode ter fundo próprio, senão ele
+   cobre as camadas com z-index negativo (pattern). A cor de fundo agora
+   fica na camada body::before (z-index -3), e o pattern por cima (-2). */
 body {
-  background: var(--fundo-principal);
+  background: transparent;
   color: var(--texto-escuro);
   font-family: var(--fonte-corpo);
   font-size: 15px;
@@ -56,7 +54,8 @@ button { font: inherit; cursor: pointer; border: none; background: none; }
 body::before {
   content: ""; position: fixed; inset: 0; z-index: -3;
   background: radial-gradient(circle at 50% 10%, rgba(98, 182, 203, 0.15), transparent 70%),
-              radial-gradient(circle at 80% 90%, rgba(230, 25, 117, 0.08), transparent 60%);
+              radial-gradient(circle at 80% 90%, rgba(230, 25, 117, 0.08), transparent 60%),
+              var(--fundo-principal);
   pointer-events: none;
 }
 
@@ -64,10 +63,11 @@ body::before {
 #pattern-bg {
   position: fixed; inset: 0; pointer-events: none; z-index: -2;
   background-repeat: repeat; background-position: center;
-  opacity: 0.06;
+  background-size: 340px auto; /* ajuste o tamanho do desenho aqui */
+  opacity: 0.12;               /* ajuste a intensidade aqui (0 a 1) */
 }
 
-/* ---------- ✉️ TELA DE ABERTURA ---------- */
+/* ---------- TELA DE ABERTURA ---------- */
 #intro {
   position: fixed; inset: 0; z-index: 200;
   background: #0F3057;
@@ -75,53 +75,79 @@ body::before {
   background-size: cover; background-position: center; background-repeat: no-repeat;
   transition: transform 1.1s cubic-bezier(0.77, 0, 0.18, 1), opacity 0.8s ease;
 }
-
 #videoAberturaPlayer {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 10;
   display: none; background: #000;
 }
-
-/* Área de clique invisível (sem animação) */
 .area-selo-clique {
   position: relative; z-index: 5;
   width: 130px; height: 130px; border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
+  background: transparent; cursor: pointer;
 }
-
 #intro.open { transform: translateY(-100%); opacity: 0; }
 
-/* ---------- 🌟 CAPA HERO ---------- */
+/* ---------- PÉTALAS CAINDO ---------- */
+#petalas { position: fixed; inset: 0; z-index: 50; pointer-events: none; overflow: hidden; }
+.petala {
+  position: absolute; top: 0;
+  border-radius: 150% 0 150% 0;
+  background: linear-gradient(135deg, var(--pink-brilho), var(--pink-bouganville));
+  opacity: 0.85; will-change: transform;
+  animation: cair linear infinite;
+}
+@keyframes cair {
+  0%   { transform: translate3d(0, -40px, 0) rotate(0deg); }
+  50%  { transform: translate3d(var(--dx), 55vh, 0) rotate(200deg); }
+  100% { transform: translate3d(calc(var(--dx) * -0.6), 110vh, 0) rotate(400deg); }
+}
+@media (prefers-reduced-motion: reduce) { #petalas { display: none; } }
+
+/* ---------- BOTÃO DA MÚSICA ---------- */
+#btnMusica {
+  position: fixed; z-index: 150;
+  right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: 48px; height: 48px; border-radius: 50%;
+  display: none; align-items: center; justify-content: center;
+  background: var(--azul-cobalto); color: #fff;
+  border: 2px solid var(--pink-bouganville);
+  box-shadow: 0 4px 16px rgba(15, 48, 87, 0.35);
+}
+#btnMusica.visivel { display: flex; }
+#btnMusica svg { width: 20px; height: 20px; fill: currentColor; }
+#btnMusica:active { transform: scale(0.92); }
+
+/* ---------- CAPA HERO ---------- */
 .hero {
   min-height: 100svh; width: 100%;
   display: flex; flex-direction: column;
   align-items: center; justify-content: space-between;
-  text-align: center;
-  color: var(--azul-cobalto);
+  text-align: center; color: var(--azul-cobalto);
   padding: 40px 20px calc(40px + env(safe-area-inset-bottom, 0px));
   position: relative; overflow: hidden;
   background-size: cover; background-position: center;
 }
 .hero::before { content: ""; position: absolute; inset: 12px; border: 1px solid var(--borda-glass); pointer-events: none; z-index: 2; }
-
-.hero .conteudo-topo {
-  position: relative; z-index: 3; width: 100%; max-width: 420px;
-  margin-top: 20px;
-}
+.hero .conteudo-topo { position: relative; z-index: 3; width: 100%; max-width: 420px; margin-top: 20px; }
 .hero .tag-15 { font-family: var(--fonte-titulo); font-size: 0.95rem; letter-spacing: 0.3em; color: var(--pink-bouganville); text-transform: uppercase; font-weight: 600; }
-
 .hero h1.nome-texto {
   font-family: var(--fonte-nome); font-size: clamp(2.8rem, 12vw, 4.2rem);
   line-height: 1.1; margin: 10px 0 0; color: var(--azul-cobalto);
   letter-spacing: 0.02em; filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.8));
 }
+.hero .conteudo-bottom { position: relative; z-index: 3; width: 100%; max-width: 420px; margin-top: auto; padding-bottom: 10px; }
 
-.hero .conteudo-bottom {
-  position: relative; z-index: 3; width: 100%; max-width: 420px;
-  margin-top: auto;
-  padding-bottom: 10px;
+/* DATA AUMENTADA */
+.hero .dia-semana {
+  font-family: var(--fonte-titulo); font-size: 1.15rem; letter-spacing: 0.25em;
+  color: var(--pink-bouganville); font-weight: 700; text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9);
 }
-.hero .data { font-family: var(--fonte-titulo); font-size: 1.1rem; letter-spacing: 0.1em; color: var(--azul-greco); font-weight: 600; margin-bottom: 14px; text-transform: uppercase; }
+.hero .data {
+  font-family: var(--fonte-titulo); font-size: clamp(1.9rem, 8.5vw, 2.6rem);
+  line-height: 1.15; letter-spacing: 0.04em; color: var(--azul-cobalto);
+  font-weight: 700; margin-bottom: 18px; text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.95), 0 0 2px rgba(255, 255, 255, 0.9);
+}
 
 .contagem { display: flex; gap: 8px; justify-content: center; }
 .contagem div {
@@ -133,7 +159,7 @@ body::before {
 .contagem b { display: block; font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 600; color: var(--azul-greco); }
 .contagem span { font-size: 0.62rem; text-transform: uppercase; color: var(--pink-bouganville); letter-spacing: 0.05em; font-weight: 600; }
 
-/* ---------- Estrutura das Secções ---------- */
+/* ---------- Seções ---------- */
 section.sec { padding: 64px 20px; position: relative; }
 section.sec.alt { background: rgba(27, 73, 101, 0.03); }
 .wrap { max-width: 480px; margin: 0 auto; }
@@ -147,20 +173,18 @@ h2 { font-family: var(--fonte-titulo); font-weight: 600; font-size: 1.8rem; text
   border: 1px solid var(--borda-glass); border-radius: 16px; padding: 24px 20px;
   box-shadow: var(--sombra-glow); margin-top: 20px; text-align: center;
 }
-
 .foto-debutante {
   width: 100%; max-width: 300px; aspect-ratio: 9/16; object-fit: cover;
   margin: 24px auto 0; border-radius: 150px 150px 16px 16px;
   border: 3px solid var(--azul-greco); padding: 5px; background: #fff;
   box-shadow: 0 8px 25px rgba(27, 73, 101, 0.2);
 }
-
 .video-box {
   width: 100%; max-width: 320px; aspect-ratio: 9/16; margin: 0 auto;
   border-radius: 16px; overflow: hidden; border: 2px solid var(--azul-greco);
   box-shadow: var(--sombra-glow); background: #000;
 }
-.video-box iframe { width: 100%; height: 100%; border: 0; }
+.video-box iframe, .video-box video { width: 100%; height: 100%; border: 0; object-fit: contain; background: #000; }
 
 .botoes { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
 .btn {
@@ -182,10 +206,9 @@ input, select, textarea {
 }
 textarea { min-height: 80px; }
 
-/* Rodapé e Logo PNG */
+/* Rodapé */
 footer { background: var(--azul-cobalto); color: #ffffff; text-align: center; padding: 48px 20px calc(48px + env(safe-area-inset-bottom, 0px)); }
-footer .nome { font-family: var(--fonte-nome); font-size: 2.8rem; color: #ffffff; }
-footer .logo-png { max-width: 260px; height: auto; margin: 0 auto; display: block; }
+footer .logomarca { max-width: 220px; height: auto; margin: 18px auto 0; display: block; }
 
 #yt-player-container { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; left: -9999px; }
 
@@ -196,11 +219,11 @@ footer .logo-png { max-width: 260px; height: auto; margin: 0 auto; display: bloc
 
 <body class="locked">
 
-<!-- Camada do Pattern / Azulejo Greco -->
 <div id="pattern-bg"></div>
-
-<!-- Player do YouTube (áudio, invisível) -->
+<div id="petalas" aria-hidden="true"></div>
 <div id="yt-player-container"><div id="yt-player"></div></div>
+
+<button id="btnMusica" aria-label="Pausar música"></button>
 
 <div id="intro" role="dialog"></div>
 <main id="app"></main>
@@ -210,16 +233,14 @@ footer .logo-png { max-width: 260px; height: auto; margin: 0 auto; display: bloc
    ✏️ CONFIGURAÇÕES DO CONVITE (SANTORINI / MAMMA MIA)
    ========================================================================== */
 const CONFIG = {
-  nome: "", // Nome do texto padrao
+  nome: "",
 
-  /* 🖼️ URL DA IMAGEM PNG DO NOME DA CLIENTE (EM BRANCO) */
-  logoNome: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/FUNDO%20TRANSPARENTE-08.png?raw=true",
+  /* 🏷️ LOGOMARCA DO RODAPÉ — deixe "" para não mostrar nada.
+     Quando tiver a imagem, cole a URL aqui e ela aparece abaixo da hashtag. */
+  logomarca: "",
 
   fundoPattern: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/FUNDO%20TRANSPARENTE-15.png?raw=true",
 
-  /* ✉️ TELA DE ABERTURA INICIAL
-     Enquanto não houver imagem, aparece o fundo azul #0F3057.
-     Cole aqui a URL da nova imagem de entrada quando estiver pronta. */
   imagemAbertura: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/ImgAbertura.jpg?raw=true",
   videoAbertura: "",
 
@@ -235,7 +256,10 @@ const CONFIG = {
   fotoCapa: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/Capa01.png?raw=true",
   fotoDebutante: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/FotoGigi.jpeg?raw=true",
 
-  videoTeaser: "Videogigi.mp4",
+  /* 🎬 TEASER: aceita link do YouTube OU arquivo de vídeo (.mp4).
+     Se o vídeo está no mesmo repositório do GitHub, use o link no formato abaixo.
+     Se o arquivo estiver na mesma pasta do HTML, pode usar só "Videogigi.mp4". */
+  videoTeaser: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/Videogigi.mp4?raw=true",
 
   mensagem: {
     titulo: "Meus 15 Anos",
@@ -257,15 +281,9 @@ const CONFIG = {
     { hora: "23h30", titulo: "Pista Mamma Mia (Dancing Queen)" }
   ],
 
-  dressCode: {
-    titulo: "Dress Code",
-    texto: "Esporte Fino"
-  },
+  dressCode: { titulo: "Dress Code", texto: "Esporte Fino" },
 
-  rsvp: {
-    whatsapp: "5561992347099",
-    prazo: "23 de Dezembro"
-  },
+  rsvp: { whatsapp: "5561992347099", prazo: "23 de Dezembro" },
 
   hashtag: "#GiovannaXV"
 };
@@ -277,18 +295,14 @@ const $ = (s, r = document) => r.querySelector(s);
 const C = CONFIG;
 const data = new Date(C.dataHora);
 const fmt = (o) => new Intl.DateTimeFormat('pt-BR', o).format(data);
-
 const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
 const dataLonga = fmt({ day: 'numeric', month: 'long', year: 'numeric' });
 const diaSemana = capitalizar(fmt({ weekday: 'long' }));
 const enc = encodeURIComponent;
 
 document.title = `${C.nome || '15 Anos'} — XV Anos`;
 
-if (C.fundoPattern) {
-  $('#pattern-bg').style.backgroundImage = `url("${C.fundoPattern}")`;
-}
+if (C.fundoPattern) $('#pattern-bg').style.backgroundImage = `url("${C.fundoPattern}")`;
 
 function extrairIdYoutube(url) {
   if (!url) return null;
@@ -296,8 +310,42 @@ function extrairIdYoutube(url) {
   return m ? m[1] : url;
 }
 
-/* API YouTube (áudio de fundo) */
+/* ---------- PÉTALAS ---------- */
+(function criarPetalas() {
+  const box = $('#petalas');
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement('i');
+    const w = rnd(9, 17);
+    p.className = 'petala';
+    p.style.cssText = `left:${rnd(0, 100)}%;width:${w}px;height:${w * 0.75}px;` +
+      `--dx:${rnd(-90, 90)}px;animation-duration:${rnd(9, 18)}s;animation-delay:${-rnd(0, 18)}s;`;
+    box.appendChild(p);
+  }
+})();
+
+/* ---------- MÚSICA (YouTube, invisível) + BOTÃO PLAY/PAUSE ---------- */
+const ICO_PAUSE = '<svg viewBox="0 0 24 24"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>';
+const ICO_PLAY  = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>';
+const btnMusica = $('#btnMusica');
 let ytPlayer = null;
+let retomarAposVideo = false;
+
+const musicaTocando = () => ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === 1;
+
+function atualizaBtnMusica() {
+  const tocando = musicaTocando();
+  btnMusica.innerHTML = tocando ? ICO_PAUSE : ICO_PLAY;
+  btnMusica.setAttribute('aria-label', tocando ? 'Pausar música' : 'Tocar música');
+}
+atualizaBtnMusica();
+
+btnMusica.onclick = () => {
+  if (!ytPlayer || !ytPlayer.playVideo) return;
+  retomarAposVideo = false;
+  if (musicaTocando()) ytPlayer.pauseVideo(); else ytPlayer.playVideo();
+  setTimeout(atualizaBtnMusica, 150);
+};
 
 const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -306,35 +354,28 @@ document.head.appendChild(tag);
 function onYouTubeIframeAPIReady() {
   const videoId = extrairIdYoutube(C.youtubeAudioUrl);
   if (!videoId) return;
-
   ytPlayer = new YT.Player('yt-player', {
     videoId: videoId,
-    playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId }
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: videoId, playsinline: 1 },
+    events: { onStateChange: atualizaBtnMusica }
   });
 }
 
-/* ---------- TELA DE ABERTURA INICIAL ---------- */
+/* ---------- TELA DE ABERTURA ---------- */
 const intro = $('#intro');
 if (C.usarTelaDeAbertura) {
-  if (C.imagemAbertura) {
-    intro.style.backgroundImage = `url("${C.imagemAbertura}")`;
-  }
-
+  if (C.imagemAbertura) intro.style.backgroundImage = `url("${C.imagemAbertura}")`;
   intro.innerHTML = `
     ${C.videoAbertura ? `<video id="videoAberturaPlayer" src="${C.videoAbertura}" playsinline></video>` : ''}
-    <button class="area-selo-clique" id="abrir" aria-label="Abrir Convite"></button>
-  `;
-} else { intro.remove(); }
+    <button class="area-selo-clique" id="abrir" aria-label="Abrir Convite"></button>`;
+} else { intro.remove(); btnMusica.classList.add('visivel'); }
 
 function fecharAberturaEEntrar() {
   intro.classList.add('open');
   document.body.classList.remove('locked');
-
-  if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-    ytPlayer.playVideo();
-  }
-
-  setTimeout(() => intro.remove(), 1100);
+  btnMusica.classList.add('visivel');
+  if (ytPlayer && typeof ytPlayer.playVideo === 'function') ytPlayer.playVideo();
+  setTimeout(() => { intro.remove(); atualizaBtnMusica(); }, 1100);
 }
 
 if (C.usarTelaDeAbertura) {
@@ -345,31 +386,26 @@ if (C.usarTelaDeAbertura) {
       videoPlayer.play();
       videoPlayer.onended = fecharAberturaEEntrar;
       videoPlayer.onclick = fecharAberturaEEntrar;
-    } else {
-      fecharAberturaEEntrar();
-    }
+    } else fecharAberturaEEntrar();
   };
-} else {
-  document.body.classList.remove('locked');
-}
+} else document.body.classList.remove('locked');
 
-/* Construção das Secções */
+/* ---------- Construção das Seções ---------- */
 const secoes = [];
 function add(id, html, alt) {
   secoes.push(`<section class="sec${alt ? ' alt' : ''}" id="${id}"><div class="wrap">${html}</div></section>`);
 }
 const titulo = t => `<h2>${t}</h2><div class="ornamento"></div>`;
 
-/* Capa */
 const capa = `
 <header class="hero" id="inicio" style="background-image:url('${C.fotoCapa}')">
   <div class="conteudo-topo">
     <p class="tag-15"></p>
     ${C.nome ? `<h1 class="nome-texto">${C.nome}</h1>` : ''}
   </div>
-
   <div class="conteudo-bottom">
-    <p class="data">${diaSemana}, ${dataLonga}</p>
+    <p class="dia-semana">${diaSemana}</p>
+    <p class="data">${dataLonga}</p>
     <div id="contagem"></div>
   </div>
 </header>`;
@@ -377,13 +413,15 @@ const capa = `
 if (C.mensagem) add('convite', `
   ${titulo(C.mensagem.titulo)}
   <p class="texto">${C.mensagem.texto}</p>
-  ${C.fotoDebutante ? `<img class="foto-debutante" src="${C.fotoDebutante}" alt="${C.nome}">` : ''}`);
+  ${C.fotoDebutante ? `<img class="foto-debutante" src="${C.fotoDebutante}" alt="${C.nome || 'Giovanna'}">` : ''}`);
 
 if (C.videoTeaser) {
-  const vId = extrairIdYoutube(C.videoTeaser);
-  if (vId) add('video', `
-    ${titulo('Teaser')}
-    <div class="video-box"><iframe src="https://www.youtube.com/embed/${vId}?rel=0" allowfullscreen loading="lazy"></iframe></div>`);
+  const ehArquivo = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(C.videoTeaser);
+  const vId = ehArquivo ? null : extrairIdYoutube(C.videoTeaser);
+  const player = ehArquivo
+    ? `<video id="teaserVideo" src="${C.videoTeaser}" controls playsinline preload="metadata"></video>`
+    : `<iframe src="https://www.youtube.com/embed/${vId}?rel=0" allowfullscreen loading="lazy"></iframe>`;
+  if (ehArquivo || vId) add('video', `${titulo('Teaser')}<div class="video-box">${player}</div>`);
 }
 
 if (C.local) add('local', `
@@ -429,18 +467,22 @@ if (C.rsvp && C.rsvp.whatsapp) add('confirmar', `
     <button class="btn" type="submit">Confirmar no WhatsApp</button>
   </form>`, true);
 
-/* Rodapé */
-const logoHtml = C.logoNome
-  ? `<img src="${C.logoNome}" alt="${C.nome}" class="logo-png">`
-  : `<div class="nome">${C.nome || 'Giovanna'}</div>`;
-
+/* Rodapé (logo do nome removida; logomarca só aparece se preenchida em CONFIG.logomarca) */
 const rodape = `
 <footer>
-  ${logoHtml}
-  <p style="color:var(--pink-bouganville); margin:6px 0 0; font-weight:600;">${C.hashtag}</p>
+  <p style="color:var(--pink-bouganville); font-weight:600; font-size:1.1rem;">${C.hashtag}</p>
+  ${C.logomarca ? `<img src="${C.logomarca}" alt="Logomarca" class="logomarca">` : ''}
 </footer>`;
 
 $('#app').innerHTML = capa + secoes.join('') + rodape;
+
+/* Teaser em arquivo: pausa a música enquanto o vídeo toca */
+const teaser = $('#teaserVideo');
+if (teaser) {
+  teaser.onplay = () => { if (musicaTocando()) { retomarAposVideo = true; ytPlayer.pauseVideo(); } };
+  const volta = () => { if (retomarAposVideo && ytPlayer) { retomarAposVideo = false; ytPlayer.playVideo(); } };
+  teaser.onpause = volta; teaser.onended = volta;
+}
 
 /* Revelar ao rolar */
 const rvs = document.querySelectorAll('section.sec .wrap, footer');
