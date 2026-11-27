@@ -2,325 +2,472 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#061a4a">
-<!-- ✏️ TEXTO QUE APARECE NA PRÉVIA DO LINK (WhatsApp, Instagram etc.) E NA ABA DO NAVEGADOR.
-     Os aplicativos leem SOMENTE estas linhas, por isso elas ficam aqui e não no CONFIG.
-     Troque o texto entre aspas se quiser outro título ou descrição. -->
-<title>SAVE THE DATE</title>
-<meta property="og:type" content="website">
-<meta property="og:title" content="SAVE THE DATE">
-<meta property="og:description" content="Você recebeu um convite especial. Deslize para abrir.">
-<meta name="description" content="Você recebeu um convite especial. Deslize para abrir.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0F3057">
+<meta name="msapplication-navbutton-color" content="#0F3057">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Convite 15 Anos — Giovanna</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@600;700&family=Cinzel:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#061a4a;--azul:#0c2a78;--ouro:#d4b16a;--texto:#f6ebcb;
-  --fn:'Pinyon Script','Brush Script MT',cursive;--ft:'Cormorant Garamond',Georgia,serif;--fx:'Jost',system-ui,sans-serif;--fd:'Playfair Display',Georgia,serif;--fm:'Marcellus',Georgia,serif}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);color:var(--texto);font-family:var(--fx);font-weight:300;-webkit-font-smoothing:antialiased}
-button{font:inherit;cursor:pointer;color:inherit}
-:focus-visible{outline:2px solid var(--ouro);outline-offset:3px}
-[hidden]{display:none!important}
-#deck{position:fixed;inset:0;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-#trilho{display:flex;height:100%;transition:transform .9s cubic-bezier(.65,0,.35,1);will-change:transform}
-.pg{flex:0 0 100%;height:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;padding:76px 28px 72px;overflow:hidden}
-.bg{position:absolute;inset:0;background:linear-gradient(160deg,#1550b0,var(--bg) 70%) center/cover}
-.bg video{width:100%;height:100%;object-fit:cover;display:block}
-.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(6,26,74,.5),rgba(6,26,74,.85))}
-#p-capa{justify-content:flex-end}
-#p-capa .bg::after{background:linear-gradient(180deg,rgba(6,26,74,0) 30%,rgba(6,26,74,.93) 100%)}
-.pg>*:not(.bg){position:relative;z-index:1}
+/* ==========================================================================
+   🇬🇷 PALETA DE CORES MAMMA MIA (SANTORINI: BRANCO, AZUL GREGO & BOUGANVÍLEA PINK)
+   ========================================================================== */
+:root {
+  --fundo-principal: #f8fafc;
+  --fundo-card:      rgba(255, 255, 255, 0.92);
 
-/* entrada delicada de todos os textos (fade + subida + desfoque suave) */
-.in{opacity:0;transform:translateY(18px);filter:blur(4px);transition:opacity 1.2s ease var(--d,0s),transform 1.2s ease var(--d,0s),filter 1.2s ease var(--d,0s)}
-.pg.on .in{opacity:1;transform:none;filter:none}
+  --azul-cobalto:    #0F3057;
+  --azul-greco:      #1b4965;
+  --azul-celeste:    #62b6cb;
 
-.kicker{font-family:var(--ft);font-style:italic;font-size:1.35rem;line-height:1.4}
-.nomes{font-family:var(--fn);font-weight:400;font-size:clamp(3.4rem,17vw,6.6rem);line-height:1.08;color:var(--ouro)}
-h2{font-family:var(--ft);font-weight:500;font-size:clamp(1.9rem,7vw,2.8rem);line-height:1.15}
-.grande{font-family:var(--ft);font-size:clamp(1.6rem,6vw,2.3rem)}
-.data{font-family:var(--fd);font-weight:400;font-size:clamp(1.5rem,5.6vw,2.1rem);letter-spacing:.02em;font-variant-numeric:lining-nums}
-.idade{font-family:var(--fm);font-weight:400;font-size:clamp(2.2rem,10vw,3.4rem);color:var(--ouro);letter-spacing:.05em;line-height:1}
-.aviso{max-width:340px;font-size:.92rem;opacity:.8}
-.cont{display:flex;gap:10px;justify-content:center}
-.cont div{min-width:70px;padding:12px 6px;border:1px solid rgba(212,177,106,.55);border-radius:18px;background:rgba(255,255,255,.06)}
-.cont b{display:block;font-family:var(--fd);font-size:1.8rem;font-weight:500;line-height:1.2;font-variant-numeric:lining-nums}
-.cont span{font-size:.8rem;opacity:.8}
+  --pink-bouganville:#e61975;
+  --pink-brilho:     #ff4097;
 
-#dots{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;gap:10px;z-index:20}
-#dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:.3s}
-#dots i.on{background:var(--ouro);transform:scale(1.5)}
-#musicBtn{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:30;width:42px;height:42px;border-radius:50%;border:1px solid rgba(246,235,203,.75);background:rgba(0,0,0,.22);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;place-items:center;font-size:1.1rem}
-#musicBtn.ativo{display:grid}
-#musicBtn.tocando{animation:giro 6s linear infinite}
-@keyframes giro{to{transform:rotate(360deg)}}
+  --texto-escuro:    #0a192f;
+  --texto-suave:     #2b4c6f;
+  --borda-glass:     rgba(27, 73, 101, 0.2);
+  --sombra-glow:     0 10px 30px rgba(27, 73, 101, 0.12);
 
-/* cantinho pequeno que "tenta virar" a página */
-#canto{position:fixed;right:0;bottom:0;z-index:25;width:92px;height:92px;border:0;background:none;transform-origin:100% 100%;filter:drop-shadow(-2px -2px 5px rgba(0,0,0,.4));animation:dobra 6s ease-in-out infinite}
-@keyframes dobra{0%,72%,100%{transform:scale(1)}80%{transform:scale(1.25)}88%{transform:scale(1.04)}95%{transform:scale(1.16)}}
-.mono{display:block;margin:0 auto;width:min(var(--mw,340px),92vw);height:auto;max-height:46vh;object-fit:contain}
-#canto::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#020b26,#0c2a78);clip-path:polygon(100% 0,100% 100%,0 100%)}
-#canto::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#fbf4e2,#e6d8b8);clip-path:polygon(0 0,100% 0,0 100%)}
-#canto span{position:absolute;z-index:1;left:32%;top:32%;transform:translate(-50%,-50%) rotate(-45deg);white-space:nowrap;font-family:var(--ft);font-style:italic;font-size:.68rem;color:#4a3d27}
+  --fonte-nome:    'Cinzel Decorative', serif;
+  --fonte-titulo:  'Cinzel', serif;
+  --fonte-corpo:   'Montserrat', sans-serif;
+}
 
-/* página virando de verdade */
-#folha{position:fixed;inset:0;z-index:40;perspective:1800px;pointer-events:none;display:none;overflow:hidden}
-#folha .f{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;animation:vira 1.1s cubic-bezier(.6,0,.3,1) forwards}
-#folha .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-#folha .verso{transform:rotateY(180deg);background:linear-gradient(90deg,#e6d8b8,#fbf4e2)}
-#folha .pg{width:100%;height:100%;flex:none}
-#folha .sombra{position:absolute;inset:0;z-index:5;background:linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,.55));opacity:0;animation:somb 1.1s forwards}
-@keyframes vira{to{transform:rotateY(-180deg)}}
-@keyframes somb{to{opacity:1}}
+/* Reset Base */
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+/* Fundo azul no html: colore a barra do navegador (topo e rodapé) e a área de rolagem extra */
+html { scroll-behavior: smooth; background: #0F3057; }
+body {
+  background: var(--fundo-principal);
+  color: var(--texto-escuro);
+  font-family: var(--fonte-corpo);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.locked { overflow: hidden; }
+img, video { max-width: 100%; display: block; }
+button { font: inherit; cursor: pointer; border: none; background: none; }
 
-/* tela de abertura: o toque do convidado libera a música automática */
-#abertura{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;padding:28px;text-align:center;
-  background:linear-gradient(160deg,#1550b0,var(--bg) 70%);transition:opacity .9s ease,visibility .9s}
-#abertura.sai{opacity:0;visibility:hidden;pointer-events:none}
-#abertura .toque{font-family:var(--ft);font-style:italic;font-size:1.15rem;letter-spacing:.04em;padding:14px 34px;border-radius:99px;border:1px solid var(--ouro);
-  background:rgba(255,255,255,.08);animation:respira 3.2s ease-in-out infinite}
-@keyframes respira{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -3;
+  background: radial-gradient(circle at 50% 10%, rgba(98, 182, 203, 0.15), transparent 70%),
+              radial-gradient(circle at 80% 90%, rgba(230, 25, 117, 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+/* ---------- PATTERN DE AZULEJOS ---------- */
+#pattern-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: -2;
+  background-repeat: repeat; background-position: center;
+  opacity: 0.06;
+}
+
+/* ---------- ✉️ TELA DE ABERTURA ---------- */
+#intro {
+  position: fixed; inset: 0; z-index: 200;
+  background: #0F3057;
+  display: flex; align-items: center; justify-content: center;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  transition: transform 1.1s cubic-bezier(0.77, 0, 0.18, 1), opacity 0.8s ease;
+}
+
+#videoAberturaPlayer {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 10;
+  display: none; background: #000;
+}
+
+/* Área de clique invisível (sem animação) */
+.area-selo-clique {
+  position: relative; z-index: 5;
+  width: 130px; height: 130px; border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+#intro.open { transform: translateY(-100%); opacity: 0; }
+
+/* ---------- 🌟 CAPA HERO ---------- */
+.hero {
+  min-height: 100svh; width: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: space-between;
+  text-align: center;
+  color: var(--azul-cobalto);
+  padding: 40px 20px calc(40px + env(safe-area-inset-bottom, 0px));
+  position: relative; overflow: hidden;
+  background-size: cover; background-position: center;
+}
+.hero::before { content: ""; position: absolute; inset: 12px; border: 1px solid var(--borda-glass); pointer-events: none; z-index: 2; }
+
+.hero .conteudo-topo {
+  position: relative; z-index: 3; width: 100%; max-width: 420px;
+  margin-top: 20px;
+}
+.hero .tag-15 { font-family: var(--fonte-titulo); font-size: 0.95rem; letter-spacing: 0.3em; color: var(--pink-bouganville); text-transform: uppercase; font-weight: 600; }
+
+.hero h1.nome-texto {
+  font-family: var(--fonte-nome); font-size: clamp(2.8rem, 12vw, 4.2rem);
+  line-height: 1.1; margin: 10px 0 0; color: var(--azul-cobalto);
+  letter-spacing: 0.02em; filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.8));
+}
+
+.hero .conteudo-bottom {
+  position: relative; z-index: 3; width: 100%; max-width: 420px;
+  margin-top: auto;
+  padding-bottom: 10px;
+}
+.hero .data { font-family: var(--fonte-titulo); font-size: 1.1rem; letter-spacing: 0.1em; color: var(--azul-greco); font-weight: 600; margin-bottom: 14px; text-transform: uppercase; }
+
+.contagem { display: flex; gap: 8px; justify-content: center; }
+.contagem div {
+  min-width: 58px; padding: 10px 4px;
+  background: var(--fundo-card); backdrop-filter: blur(8px);
+  border: 1px solid var(--borda-glass); border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(27, 73, 101, 0.08);
+}
+.contagem b { display: block; font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 600; color: var(--azul-greco); }
+.contagem span { font-size: 0.62rem; text-transform: uppercase; color: var(--pink-bouganville); letter-spacing: 0.05em; font-weight: 600; }
+
+/* ---------- Estrutura das Secções ---------- */
+section.sec { padding: 64px 20px; position: relative; }
+section.sec.alt { background: rgba(27, 73, 101, 0.03); }
+.wrap { max-width: 480px; margin: 0 auto; }
+h2 { font-family: var(--fonte-titulo); font-weight: 600; font-size: 1.8rem; text-align: center; color: var(--azul-cobalto); letter-spacing: 0.05em; }
+.ornamento { width: 50px; height: 1px; background: var(--pink-bouganville); margin: 8px auto 28px; position: relative; }
+.ornamento::after { content: "🌸"; position: absolute; left: 50%; top: -12px; font-size: 10px; transform: translateX(-50%); }
+.texto { font-size: 1.05rem; line-height: 1.7; text-align: center; color: var(--texto-suave); font-weight: 400; }
+
+.glass-card {
+  background: var(--fundo-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--borda-glass); border-radius: 16px; padding: 24px 20px;
+  box-shadow: var(--sombra-glow); margin-top: 20px; text-align: center;
+}
+
+.foto-debutante {
+  width: 100%; max-width: 300px; aspect-ratio: 9/16; object-fit: cover;
+  margin: 24px auto 0; border-radius: 150px 150px 16px 16px;
+  border: 3px solid var(--azul-greco); padding: 5px; background: #fff;
+  box-shadow: 0 8px 25px rgba(27, 73, 101, 0.2);
+}
+
+.video-box {
+  width: 100%; max-width: 320px; aspect-ratio: 9/16; margin: 0 auto;
+  border-radius: 16px; overflow: hidden; border: 2px solid var(--azul-greco);
+  box-shadow: var(--sombra-glow); background: #000;
+}
+.video-box iframe { width: 100%; height: 100%; border: 0; }
+
+.botoes { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 14px 20px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--azul-greco), var(--azul-cobalto));
+  color: #ffffff; text-decoration: none;
+  font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em;
+  box-shadow: 0 4px 15px rgba(27, 73, 101, 0.25); transition: transform 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn.vazado { background: transparent; color: var(--azul-cobalto); border: 1.5px solid var(--azul-cobalto); box-shadow: none; }
+
+form { display: grid; gap: 14px; margin-top: 10px; text-align: left; }
+label { display: grid; gap: 4px; font-size: 0.85rem; color: var(--azul-cobalto); font-weight: 600; }
+input, select, textarea {
+  font: inherit; padding: 12px; border: 1px solid var(--borda-glass); border-radius: 8px;
+  background: #ffffff; color: var(--texto-escuro); width: 100%;
+}
+textarea { min-height: 80px; }
+
+/* Rodapé e Logo PNG */
+footer { background: var(--azul-cobalto); color: #ffffff; text-align: center; padding: 48px 20px calc(48px + env(safe-area-inset-bottom, 0px)); }
+footer .nome { font-family: var(--fonte-nome); font-size: 2.8rem; color: #ffffff; }
+footer .logo-png { max-width: 260px; height: auto; margin: 0 auto; display: block; }
+
+#yt-player-container { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; left: -9999px; }
+
+.rv { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
 </style>
 </head>
-<body>
-<main id="deck"><div id="trilho"></div></main>
-<button id="canto" aria-label="Próxima página"><span>Próxima página</span></button>
-<div id="folha" aria-hidden="true"></div>
-<nav id="dots" aria-hidden="true"></nav>
-<button id="musicBtn" aria-label="Ligar ou desligar a música">♫</button>
-<audio id="audio" loop preload="auto"></audio>
+
+<body class="locked">
+
+<!-- Camada do Pattern / Azulejo Greco -->
+<div id="pattern-bg"></div>
+
+<!-- Player do YouTube (áudio, invisível) -->
+<div id="yt-player-container"><div id="yt-player"></div></div>
+
+<div id="intro" role="dialog"></div>
+<main id="app"></main>
 
 <script>
 /* ==========================================================================
-   CONFIGURAÇÕES — EDITE SOMENTE ESTE BLOCO
-   TROQUE OS TEXTOS "COLE ... AQUI" PELOS SEUS DADOS (APAGUE O TEXTO PARA ESCONDER)
-   Imagens, vídeos e sons: link da internet OU nome do arquivo na mesma pasta.
+   ✏️ CONFIGURAÇÕES DO CONVITE (SANTORINI / MAMMA MIA)
    ========================================================================== */
 const CONFIG = {
+  nome: "", // Nome do texto padrao
 
-  /* DEBUTANTE
-     NOME: só aparece se o monograma abaixo não for preenchido (vira o nome em cursiva na capa).
-     TITULO_ABA: texto da aba do navegador (para a prévia do link, edite as linhas <title> e og: no topo do arquivo). */
-  NOME: "",
-  IDADE: "",
-  TITULO_ABA: "SAVE THE DATE",
+  /* 🖼️ URL DA IMAGEM PNG DO NOME DA CLIENTE (EM BRANCO) */
+  logoNome: "https://i.imgur.com/KfeNgaH.png",
 
-  /* MONOGRAMA DA CAPA (PNG COM FUNDO TRANSPARENTE, IDEAL 1000 A 1200px DE LARGURA, SEM MARGEM SOBRANDO)
-     LARGURA = TAMANHO EM px. AUMENTE PARA CRESCER (NO CELULAR NUNCA PASSA DE 92% DA TELA)
-     SE NÃO PREENCHER O ARQUIVO, APARECE O NOME EM FONTE CURSIVA */
-  MONOGRAMA: {
-    ARQUIVO: "https://github.com/maricriative/Convite_Any15Anos-/blob/main/Recreating_image_with_new_name_5715d8bb.png?raw=true",  LARGURA: 420
+  fundoPattern: "https://i.imgur.com/Pf4BqQJ.jpeg",
+
+  /* ✉️ TELA DE ABERTURA INICIAL
+     Enquanto não houver imagem, aparece o fundo azul #0F3057.
+     Cole aqui a URL da nova imagem de entrada quando estiver pronta. */
+  imagemAbertura: "",
+  videoAbertura: "",
+
+  frase: "Here we go again! Venha celebrar meus 15 Anos em uma noite inesquecível.",
+
+  dataHora: "2027-01-09T20:00:00",
+  cidade: "Brasília - DF",
+
+  youtubeAudioUrl: "https://youtu.be/L3USy-DPoxw",
+
+  usarTelaDeAbertura: true,
+
+  fotoCapa: "https://i.imgur.com/NPTciaH.png",
+  fotoDebutante: "https://i.imgur.com/dcGQxPy.jpeg",
+
+  videoTeaser: "https://www.youtube.com/shorts/9Y7YHq2bT8U?feature=share",
+
+  mensagem: {
+    titulo: "Meus 15 Anos",
+    texto: "Inspirada pela magia das ilhas gregas e pela alegria de Mamma Mia, convido você para celebrar o início deste novo capítulo comigo!"
   },
 
-  /* FONTES — TROQUE PELO NOME EXATO DE QUALQUER FONTE DO GOOGLE FONTS
-     OU COLOQUE O ARQUIVO (.ttf, .woff, .woff2) NA MESMA PASTA E ESCREVA O NOME EM ARQUIVO
-     SCRIPT = NOME EM CURSIVA | TITULO = TÍTULOS E FRASES | TEXTO = TEXTOS MENORES
-     DATA = DATA ESCRITA E NÚMEROS DA CONTAGEM | DESTAQUE = "15 ANOS" DA CAPA */
-  FONTES: {
-    SCRIPT: { FAMILIA: "Pinyon Script",       ARQUIVO: "" },
-    TITULO: { FAMILIA: "Cormorant Garamond",  ARQUIVO: "" },
-    TEXTO:  { FAMILIA: "Jost",                ARQUIVO: "" },
-    DATA:   { FAMILIA: "Playfair Display",    ARQUIVO: "" },
-    DESTAQUE: { FAMILIA: "Marcellus",         ARQUIVO: "" }
+  local: {
+    titulo: "Recepção & Festa",
+    horario: "20h00",
+    espaco: "Villa Santorini",
+    endereco: "Setor de Mansões Dom Bosco - Brasília/DF",
+    mapsUrl: "", wazeUrl: ""
   },
 
-  /* DATA E HORA (AAAA-MM-DDTHH:MM:SS) — A CONTAGEM REGRESSIVA CONTA ATÉ AQUI */
-  DATA_HORA: "2027-03-27T19:30:00",
+  programacao: [
+    { hora: "20h00", titulo: "Boas-vindas à Grécia" },
+    { hora: "21h30", titulo: "Entrada & Valsa da Debutante" },
+    { hora: "22h30", titulo: "Jantar Mediterrâneo" },
+    { hora: "23h30", titulo: "Pista Mamma Mia (Dancing Queen)" }
+  ],
 
-  /* MÚSICA (LINK DO YOUTUBE OU ARQUIVO MP3) — TENTA COMEÇAR SOZINHA AO ABRIR; SE O NAVEGADOR
-     BLOQUEAR, COMEÇA NO PRIMEIRO TOQUE DO CONVIDADO
-     LINKS DO GITHUB (github.com/.../blob/...) SÃO CONVERTIDOS AUTOMATICAMENTE PARA LINK DIRETO */
-  MUSICA: "MusicaAny01.mp3",
-  SOM_VIRADA: "COLE O MP3 DO SOM DE VIRAR A PÁGINA AQUI (OPCIONAL)",
-
-  /* TELA DE ABERTURA: os navegadores só deixam o som tocar depois de um toque do convidado.
-     Com USAR: true, aparece uma tela "Toque para abrir" e a música começa sozinha nesse toque.
-     USAR: false = sem tela de abertura (a música só começa no primeiro toque em qualquer lugar). */
-  ABERTURA: { USAR: true, TEXTO: "Toque para abrir" },
-
-  /* FUNDOS DE CADA PÁGINA: IMAGEM E/OU VÍDEO MP4 (TOCA MUDO EM LOOP)
-     SUGESTÃO DE TAMANHO PARA CELULAR: 1080 x 1920 px (9:16) */
-  FUNDOS: {
-    CAPA: { IMAGEM: "", VIDEO: "Untitled project 11.mp4" },
-    DATA: { IMAGEM: "COLE LINK DA IMAGEM AQUI", VIDEO: "Untitled project u1.mp4" }
+  dressCode: {
+    titulo: "Dress Code",
+    texto: "Esporte Fino"
   },
 
-  /* TEXTOS */
-  TEXTOS: {
-    CAPA_TOPO: "Uma nova fase da minha vida <br>está para chegar…",
-    CAPA_DICA: "Deslize para o lado ou toque em Próxima página",
-    SAVE_TITULO: "SAVE THE DATE",
-    SAVE_FRASE: "Faltam apenas",
-    HOJE: "Hoje é o grande dia!"
+  rsvp: {
+    whatsapp: "5561999999999",
+    prazo: "23 de Dezembro"
   },
 
-  /* CORES */
-  CORES: { FUNDO: "#061A4A", AZUL: "#0C2A78", OURO: "#F6EBCB", TEXTO: "#F6EBCB" }
-};
-/* ======================== FIM DAS CONFIGURAÇÕES ======================== */
-
-
-const C = CONFIG, T = C.TEXTOS, $ = s => document.querySelector(s), enc = encodeURIComponent;
-const ok = v => !!v && !/AQUI/i.test(v);
-
-/* fontes configuráveis */
-const pesos = { 'Cormorant Garamond': ':ital,wght@0,400;0,500;0,600;1,400', 'Jost': ':wght@300;400;500', 'Playfair Display': ':wght@400;500' };
-const fam = [], ff = [];
-Object.values(C.FONTES).forEach(v => {
-  if (ok(v.ARQUIVO)) ff.push(`@font-face{font-family:'${v.FAMILIA}';src:url('${v.ARQUIVO}');font-display:swap}`);
-  else fam.push('family=' + enc(v.FAMILIA).replace(/%20/g, '+') + (pesos[v.FAMILIA] || ''));
-});
-if (ff.length) document.head.insertAdjacentHTML('beforeend', `<style>${ff.join('')}</style>`);
-if (fam.length) document.head.insertAdjacentHTML('beforeend', `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${fam.join('&')}&display=swap">`);
-const root = document.documentElement.style;
-root.setProperty('--fn', `'${C.FONTES.SCRIPT.FAMILIA}','Brush Script MT',cursive`);
-root.setProperty('--ft', `'${C.FONTES.TITULO.FAMILIA}',Georgia,serif`);
-root.setProperty('--fx', `'${C.FONTES.TEXTO.FAMILIA}',system-ui,sans-serif`);
-root.setProperty('--fd', `'${C.FONTES.DATA.FAMILIA}',Georgia,serif`);
-root.setProperty('--fm', `'${C.FONTES.DESTAQUE.FAMILIA}',Georgia,serif`);
-root.setProperty('--bg', C.CORES.FUNDO); root.setProperty('--azul', C.CORES.AZUL);
-root.setProperty('--ouro', C.CORES.OURO); root.setProperty('--texto', C.CORES.TEXTO);
-
-const d = new Date(C.DATA_HORA), pad = n => String(n).padStart(2, '0');
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-const f = o => new Intl.DateTimeFormat('pt-BR', o).format(d);
-const dia = pad(d.getDate()), mes = cap(f({ month: 'long' })), ano = d.getFullYear();
-const nome = (C.NOME || '').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
-if (C.TITULO_ABA) document.title = C.TITULO_ABA;
-const M = C.MONOGRAMA;
-const nomeHtml = ok(M.ARQUIVO) ? `<img class="mono" src="${M.ARQUIVO}" alt="${nome || 'SAVE THE DATE'}" style="--mw:${M.LARGURA || 420}px">` : nome;
-
-const bg = k => {
-  const x = (C.FUNDOS && C.FUNDOS[k]) || {};
-  return `<div class="bg"${ok(x.IMAGEM) ? ` style="background-image:url('${x.IMAGEM}')"` : ''}>${ok(x.VIDEO) ? `<video src="${x.VIDEO}" muted loop playsinline preload="metadata"></video>` : ''}</div>`;
+  hashtag: "#GiovannaXV"
 };
 
-/* ---------- as duas páginas: capa e contagem regressiva ---------- */
-const paginas = [
-  `<section class="pg" id="p-capa">${bg('CAPA')}
-    <p class="kicker in">${T.CAPA_TOPO}</p>
-    <h1 class="nomes in">${nomeHtml}</h1>
-    ${C.IDADE ? `<p class="idade in">${C.IDADE}</p>` : ''}
-    <p class="aviso in" style="opacity:.6;font-size:.8rem">${T.CAPA_DICA}</p></section>`,
+/* ==========================================================================
+   ⚙️ EXECUÇÃO & LÓGICA
+   ========================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const C = CONFIG;
+const data = new Date(C.dataHora);
+const fmt = (o) => new Intl.DateTimeFormat('pt-BR', o).format(data);
 
-  `<section class="pg">${bg('DATA')}
-    <h2 class="in">${T.SAVE_TITULO}</h2>
-    <p class="data in">${dia} ${mes} · ${ano}</p>
-    ${T.SAVE_FRASE ? `<p class="kicker in">${T.SAVE_FRASE}</p>` : ''}
-    <div class="cont in" id="cont"></div></section>`
-];
+const capitalizar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-$('#trilho').innerHTML = paginas.join('');
-const pgs = [...document.querySelectorAll('.pg')];
-$('#dots').innerHTML = pgs.map(() => '<i></i>').join('');
-const dots = [...document.querySelectorAll('#dots i')];
+const dataLonga = fmt({ day: 'numeric', month: 'long', year: 'numeric' });
+const diaSemana = capitalizar(fmt({ weekday: 'long' }));
+const enc = encodeURIComponent;
 
-/* ---------- carrossel horizontal ---------- */
-const sVira = ok(C.SOM_VIRADA) ? new Audio(C.SOM_VIRADA) : null;
-const trilho = $('#trilho'), folha = $('#folha'); let atual = -1, busy = false;
-function ir(n, som = true) {
-  n = Math.max(0, Math.min(pgs.length - 1, n));
-  if (n === atual) return;
-  if (som && sVira && atual >= 0) { sVira.currentTime = 0; sVira.play().catch(() => {}); }
-  atual = n;
-  trilho.style.transform = `translateX(${-n * 100}%)`;
-  pgs.forEach((p, i) => {
-    p.classList.toggle('on', i === n);
-    const v = p.querySelector('video');
-    if (v) i === n ? v.play().catch(() => {}) : v.pause();
+document.title = `${C.nome || '15 Anos'} — XV Anos`;
+
+if (C.fundoPattern) {
+  $('#pattern-bg').style.backgroundImage = `url("${C.fundoPattern}")`;
+}
+
+function extrairIdYoutube(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+  return m ? m[1] : url;
+}
+
+/* API YouTube (áudio de fundo) */
+let ytPlayer = null;
+
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+function onYouTubeIframeAPIReady() {
+  const videoId = extrairIdYoutube(C.youtubeAudioUrl);
+  if (!videoId) return;
+
+  ytPlayer = new YT.Player('yt-player', {
+    videoId: videoId,
+    playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId }
   });
-  dots.forEach((x, i) => x.classList.toggle('on', i === n));
-  $('#canto').hidden = n === pgs.length - 1;
 }
-/* virar página de verdade: a página atual gira sobre a lateral esquerda e revela a próxima */
-function virar(n) {
-  n = Math.max(0, Math.min(pgs.length - 1, n));
-  if (busy || n === atual) return;
-  busy = true;
-  const c = pgs[atual].cloneNode(true);
-  c.removeAttribute('id'); c.querySelectorAll('video').forEach(v => v.remove());
-  folha.innerHTML = '<div class="f"><div class="face frente"></div><div class="face verso"></div></div>';
-  const fr = folha.querySelector('.frente'); fr.append(c); fr.insertAdjacentHTML('beforeend', '<i class="sombra"></i>');
-  folha.style.display = 'block';
-  trilho.style.transition = 'none'; ir(n); void trilho.offsetWidth; trilho.style.transition = '';
-  const fim = () => { folha.style.display = 'none'; folha.innerHTML = ''; busy = false; };
-  folha.firstChild.addEventListener('animationend', e => { if (e.animationName === 'vira') fim(); });
-  setTimeout(() => { if (busy) fim(); }, 1500);
-}
-pgs.forEach(p => p.querySelectorAll('.in').forEach((el, i) => el.style.setProperty('--d', (.45 + i * .12) + 's')));
-$('#canto').onclick = () => virar(atual + 1);
 
-const deck = $('#deck'); let x0 = null, dx = 0, tw = 0;
-deck.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; dx = 0; trilho.style.transition = 'none'; }, { passive: true });
-deck.addEventListener('touchmove', e => { if (x0 === null) return; dx = e.touches[0].clientX - x0; trilho.style.transform = `translateX(calc(${-atual * 100}% + ${dx}px))`; }, { passive: true });
-deck.addEventListener('touchend', () => {
-  if (x0 === null) return; x0 = null; trilho.style.transition = '';
-  const alvo = Math.abs(dx) > 60 ? atual + (dx < 0 ? 1 : -1) : atual;
-  trilho.style.transform = `translateX(${-atual * 100}%)`;
-  ir(alvo);
-});
-deck.addEventListener('wheel', e => { const n = Date.now(), v = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY; if (n - tw < 900 || Math.abs(v) < 20) return; tw = n; ir(atual + (v > 0 ? 1 : -1)); }, { passive: true });
-addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') virar(atual + 1);
-  if (e.key === 'ArrowLeft' || e.key === 'PageUp') ir(atual - 1);
-});
-ir(0, false);
-
-/* contagem regressiva */
-function conta() {
-  const dif = d - new Date(), el = $('#cont');
-  if (dif <= 0) { el.innerHTML = `<p class="grande">${T.HOJE}</p>`; return; }
-  const v = [Math.floor(dif / 864e5), Math.floor(dif % 864e5 / 36e5), Math.floor(dif % 36e5 / 6e4), Math.floor(dif % 6e4 / 1e3)];
-  el.innerHTML = v.map((n, i) => `<div><b>${pad(n)}</b><span>${['Dias', 'Horas', 'Min', 'Seg'][i]}</span></div>`).join('');
-}
-conta(); setInterval(conta, 1000);
-
-/* ---------- música (YouTube ou MP3) ----------
-   1) tenta começar sozinha assim que o convite abre;
-   2) os navegadores costumam bloquear som automático, então, se bloquear,
-      ela começa no PRIMEIRO toque/clique/tecla do convidado (e continua tentando até tocar). */
-const audio = $('#audio'), mb = $('#musicBtn'), MUS = ok(C.MUSICA) ? String(C.MUSICA).replace(/^(?:https?:)?\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/, 'https://cdn.jsdelivr.net/gh/$1/$2@$3/$4') : null;
-const ytId = u => { const m = String(u).match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/); return m ? m[1] : null; };
-const MID = MUS && ytId(MUS);
-let mp = null, mReady = false, pend = false;
-const tocando = () => MID ? !!(mp && mReady && mp.getPlayerState() === 1) : !audio.paused;
-function tocar(on) {
-  if (MID) { if (!mReady) { pend = on; return; } on ? mp.playVideo() : mp.pauseVideo(); }
-  else if (on) audio.play().catch(() => {});
-  else audio.pause();
-}
-if (MUS) {
-  mb.classList.add('ativo');
-  const evs = ['pointerdown', 'click', 'keydown', 'touchend'];
-  const parar = () => evs.forEach(t => removeEventListener(t, iniciar));
-  const iniciar = e => { if (e.target.closest && e.target.closest('#musicBtn')) return; tocar(true); };
-  if (MID) {
-    const box = document.createElement('div'); box.id = 'ytm';
-    box.style.cssText = 'position:fixed;right:0;top:0;width:200px;height:200px;opacity:.01;pointer-events:none;z-index:0';
-    document.body.appendChild(box);
-    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
-    window.onYouTubeIframeAPIReady = () => { mp = new YT.Player('ytm', { videoId: MID, playerVars: { controls: 0, playsinline: 1, rel: 0 }, events: {
-      onReady: () => { mReady = true; mp.setVolume(70); if (pend) mp.playVideo(); },
-      onStateChange: e => { if (e.data === 0) { mp.seekTo(0); mp.playVideo(); } const p = e.data === 1; mb.classList.toggle('tocando', p); if (p) parar(); } } }); };
-  } else {
-    audio.src = MUS;
-    audio.addEventListener('playing', () => { mb.classList.add('tocando'); parar(); });
-    audio.addEventListener('pause', () => mb.classList.remove('tocando'));
+/* ---------- TELA DE ABERTURA INICIAL ---------- */
+const intro = $('#intro');
+if (C.usarTelaDeAbertura) {
+  if (C.imagemAbertura) {
+    intro.style.backgroundImage = `url("${C.imagemAbertura}")`;
   }
-  evs.forEach(t => addEventListener(t, iniciar));
-  mb.onclick = e => { e.stopPropagation(); parar(); tocar(!tocando()); };
-  tocar(true); /* tentativa automática ao abrir */
 
-  /* tela de abertura: o toque abre o convite e inicia a música */
-  if (C.ABERTURA && C.ABERTURA.USAR !== false) {
-    const ab = document.createElement('div');
-    ab.id = 'abertura';
-    ab.innerHTML = `${nomeHtml ? `<div class="nomes">${nomeHtml}</div>` : ''}<button class="toque" id="btnAbrir">${C.ABERTURA.TEXTO || 'Toque para abrir'}</button>`;
-    document.body.appendChild(ab);
-    const abrirConvite = () => { tocar(true); ab.classList.add('sai'); setTimeout(() => ab.remove(), 1000); };
-    ab.addEventListener('click', abrirConvite);
+  intro.innerHTML = `
+    ${C.videoAbertura ? `<video id="videoAberturaPlayer" src="${C.videoAbertura}" playsinline></video>` : ''}
+    <button class="area-selo-clique" id="abrir" aria-label="Abrir Convite"></button>
+  `;
+} else { intro.remove(); }
+
+function fecharAberturaEEntrar() {
+  intro.classList.add('open');
+  document.body.classList.remove('locked');
+
+  if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+    ytPlayer.playVideo();
   }
+
+  setTimeout(() => intro.remove(), 1100);
+}
+
+if (C.usarTelaDeAbertura) {
+  $('#abrir').onclick = () => {
+    const videoPlayer = $('#videoAberturaPlayer');
+    if (videoPlayer) {
+      videoPlayer.style.display = 'block';
+      videoPlayer.play();
+      videoPlayer.onended = fecharAberturaEEntrar;
+      videoPlayer.onclick = fecharAberturaEEntrar;
+    } else {
+      fecharAberturaEEntrar();
+    }
+  };
+} else {
+  document.body.classList.remove('locked');
+}
+
+/* Construção das Secções */
+const secoes = [];
+function add(id, html, alt) {
+  secoes.push(`<section class="sec${alt ? ' alt' : ''}" id="${id}"><div class="wrap">${html}</div></section>`);
+}
+const titulo = t => `<h2>${t}</h2><div class="ornamento"></div>`;
+
+/* Capa */
+const capa = `
+<header class="hero" id="inicio" style="background-image:url('${C.fotoCapa}')">
+  <div class="conteudo-topo">
+    <p class="tag-15"></p>
+    ${C.nome ? `<h1 class="nome-texto">${C.nome}</h1>` : ''}
+  </div>
+
+  <div class="conteudo-bottom">
+    <p class="data">${diaSemana}, ${dataLonga}</p>
+    <div id="contagem"></div>
+  </div>
+</header>`;
+
+if (C.mensagem) add('convite', `
+  ${titulo(C.mensagem.titulo)}
+  <p class="texto">${C.mensagem.texto}</p>
+  ${C.fotoDebutante ? `<img class="foto-debutante" src="${C.fotoDebutante}" alt="${C.nome}">` : ''}`);
+
+if (C.videoTeaser) {
+  const vId = extrairIdYoutube(C.videoTeaser);
+  if (vId) add('video', `
+    ${titulo('Teaser')}
+    <div class="video-box"><iframe src="https://www.youtube.com/embed/${vId}?rel=0" allowfullscreen loading="lazy"></iframe></div>`);
+}
+
+if (C.local) add('local', `
+  ${titulo('Onde & Quando')}
+  <p class="texto">${diaSemana}, ${dataLonga}</p>
+  <div class="glass-card">
+    <h3 style="font-family:var(--fonte-titulo); font-size:1.4rem; color:var(--azul-cobalto);">${C.local.titulo}</h3>
+    <p style="color:var(--pink-bouganville); font-weight:600; font-size:1.1rem; margin:6px 0;">${C.local.horario}</p>
+    <p style="font-weight:600; color:var(--azul-greco);">${C.local.espaco}</p>
+    <p style="font-size:0.88rem; opacity:0.85; margin-bottom:14px;">${C.local.endereco}</p>
+    <div class="botoes">
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=${enc(C.local.espaco + ' ' + C.local.endereco)}" target="_blank">Google Maps</a>
+      <a class="btn vazado" href="https://waze.com/ul?q=${enc(C.local.endereco)}&navigate=yes" target="_blank">Waze</a>
+    </div>
+  </div>`);
+
+if (C.programacao && C.programacao.length) add('programacao', `
+  ${titulo('Programação')}
+  <div class="glass-card" style="text-align:left;">
+    ${C.programacao.map(p => `
+      <div style="display:flex; gap:16px; margin-bottom:12px; align-items:center;">
+        <span style="color:var(--pink-bouganville); font-family:var(--fonte-titulo); font-weight:700;">${p.hora}</span>
+        <span style="font-size:0.95rem; font-weight:500;">${p.titulo}</span>
+      </div>`).join('')}
+  </div>`, true);
+
+if (C.dressCode) add('traje', `
+  ${titulo(C.dressCode.titulo)}
+  <p class="texto">${C.dressCode.texto}</p>`);
+
+if (C.rsvp && C.rsvp.whatsapp) add('confirmar', `
+  ${titulo('Confirmar Presença')}
+  <p class="texto" style="font-size:0.95rem;">Favor confirmar até <b>${C.rsvp.prazo}</b></p>
+  <form id="formRsvp">
+    <label>Seu Nome Completo <input name="nome" required autocomplete="name"></label>
+    <label>Você irá comparecer?
+      <select name="presenca">
+        <option value="sim">Sim! Estarei lá para celebrar</option>
+        <option value="nao">Infelizmente não poderei ir</option>
+      </select>
+    </label>
+    <label>Mensagem para a Debutante <textarea name="recado"></textarea></label>
+    <button class="btn" type="submit">Confirmar no WhatsApp</button>
+  </form>`, true);
+
+/* Rodapé */
+const logoHtml = C.logoNome
+  ? `<img src="${C.logoNome}" alt="${C.nome}" class="logo-png">`
+  : `<div class="nome">${C.nome || 'Giovanna'}</div>`;
+
+const rodape = `
+<footer>
+  ${logoHtml}
+  <p style="color:var(--pink-bouganville); margin:6px 0 0; font-weight:600;">${C.hashtag}</p>
+</footer>`;
+
+$('#app').innerHTML = capa + secoes.join('') + rodape;
+
+/* Revelar ao rolar */
+const rvs = document.querySelectorAll('section.sec .wrap, footer');
+rvs.forEach(e => e.classList.add('rv'));
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { threshold: 0.1 });
+  rvs.forEach(e => io.observe(e));
+} else rvs.forEach(e => e.classList.add('in'));
+
+function atualizaContagem() {
+  const el = $('#contagem'); const dif = data - new Date();
+  if (dif <= 0) { el.innerHTML = '<p style="margin-top:20px; font-family:var(--fonte-titulo); font-size:1.3rem; color:var(--pink-bouganville);">É HOJE A FESTA!</p>'; return; }
+  const d = Math.floor(dif / 864e5), h = Math.floor(dif % 864e5 / 36e5), m = Math.floor(dif % 36e5 / 6e4), s = Math.floor(dif % 6e4 / 1e3);
+  el.className = 'contagem';
+  el.innerHTML = [[d, 'dias'], [h, 'hs'], [m, 'min'], [s, 'seg']].map(([n, t]) => `<div><b>${String(n).padStart(2, '0')}</b><span>${t}</span></div>`).join('');
+}
+atualizaContagem(); setInterval(atualizaContagem, 1000);
+
+const form = $('#formRsvp');
+if (form) {
+  form.onsubmit = e => {
+    e.preventDefault();
+    const f = new FormData(form), vai = f.get('presenca') === 'sim';
+    let msg = `Olá! Sou ${f.get('nome')}. ` + (vai ? `Confirmo minha presença nos 15 Anos da ${C.nome || 'Giovanna'}!` : `Infelizmente não poderei comparecer.`);
+    if (f.get('recado')) msg += `\nRecado: ${f.get('recado')}`;
+    open(`https://wa.me/${C.rsvp.whatsapp}?text=${enc(msg)}`, '_blank');
+  };
 }
 </script>
 </body>
