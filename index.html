@@ -86,19 +86,20 @@ body::before {
 }
 #intro.open { transform: translateY(-100%); opacity: 0; }
 
-/* ---------- PÉTALAS CAINDO ---------- */
-#petalas { position: fixed; inset: 0; z-index: 50; pointer-events: none; overflow: hidden; }
-.petala {
-  position: absolute; top: 0;
-  border-radius: 150% 0 150% 0;
+/* ---------- PÉTALAS (começam na seção "Meus 15 Anos" e passam POR TRÁS do conteúdo) ---------- */
+#zona-petalas { position: relative; overflow: hidden; }
+#petalas { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+#zona-petalas > section.sec { z-index: 1; }
+.petala { position: absolute; top: -30px; animation: cair linear infinite; will-change: transform; }
+.petala i {
+  display: block; border-radius: 150% 0 150% 0; opacity: 0.85;
   background: linear-gradient(135deg, var(--pink-brilho), var(--pink-bouganville));
-  opacity: 0.85; will-change: transform;
-  animation: cair linear infinite;
+  animation: balancar ease-in-out infinite alternate;
 }
-@keyframes cair {
-  0%   { transform: translate3d(0, -40px, 0) rotate(0deg); }
-  50%  { transform: translate3d(var(--dx), 55vh, 0) rotate(200deg); }
-  100% { transform: translate3d(calc(var(--dx) * -0.6), 110vh, 0) rotate(400deg); }
+@keyframes cair { from { transform: translateY(0); } to { transform: translateY(calc(var(--h) + 60px)); } }
+@keyframes balancar {
+  from { transform: translateX(calc(var(--dx) * -1)) rotate(-30deg); }
+  to   { transform: translateX(var(--dx)) rotate(210deg); }
 }
 @media (prefers-reduced-motion: reduce) { #petalas { display: none; } }
 
@@ -113,7 +114,9 @@ body::before {
   box-shadow: 0 4px 16px rgba(15, 48, 87, 0.35);
 }
 #btnMusica.visivel { display: flex; }
-#btnMusica svg { width: 20px; height: 20px; fill: currentColor; }
+#btnMusica svg { width: 22px; height: 22px; fill: currentColor; animation: girar 3s linear infinite; animation-play-state: paused; }
+#btnMusica.tocando svg { animation-play-state: running; }
+@keyframes girar { to { transform: rotate(360deg); } }
 #btnMusica:active { transform: scale(0.92); }
 
 /* ---------- CAPA HERO ---------- */
@@ -220,7 +223,6 @@ footer .logomarca { max-width: 220px; height: auto; margin: 18px auto 0; display
 <body class="locked">
 
 <div id="pattern-bg"></div>
-<div id="petalas" aria-hidden="true"></div>
 <div id="yt-player-container"><div id="yt-player"></div></div>
 
 <button id="btnMusica" aria-label="Pausar música"></button>
@@ -235,9 +237,10 @@ footer .logomarca { max-width: 220px; height: auto; margin: 18px auto 0; display
 const CONFIG = {
   nome: "",
 
-  /* 🏷️ LOGOMARCA DO RODAPÉ — deixe "" para não mostrar nada.
-     Quando tiver a imagem, cole a URL aqui e ela aparece abaixo da hashtag. */
-  logomarca: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/FUNDO%20TRANSPARENTE-08.png?raw=true",
+  /* 🏷️ LOGOS DO RODAPÉ — lista de URLs de imagens (pode colocar mais de uma).
+     Exemplo: logosRodape: ["https://.../minha-logo.png"]
+     Deixe [] para não mostrar nenhuma. */
+  logosRodape: [],
 
   fundoPattern: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/FUNDO%20TRANSPARENTE-15.png?raw=true",
 
@@ -259,7 +262,7 @@ const CONFIG = {
   /* 🎬 TEASER: aceita link do YouTube OU arquivo de vídeo (.mp4).
      Se o vídeo está no mesmo repositório do GitHub, use o link no formato abaixo.
      Se o arquivo estiver na mesma pasta do HTML, pode usar só "Videogigi.mp4". */
-  videoTeaser: "Videogigi.mp4",
+  videoTeaser: "https://github.com/maricriative/Convite-Giovanna-15-Anos-/blob/main/Videogigi.mp4?raw=true",
 
   mensagem: {
     titulo: "Meus 15 Anos",
@@ -311,22 +314,34 @@ function extrairIdYoutube(url) {
 }
 
 /* ---------- PÉTALAS ---------- */
-(function criarPetalas() {
-  const box = $('#petalas');
+function iniciarPetalas() {
+  const zona = $('#zona-petalas'), box = $('#petalas');
+  if (!zona || !box) return;
   const rnd = (a, b) => a + Math.random() * (b - a);
-  for (let i = 0; i < 24; i++) {
-    const p = document.createElement('i');
-    const w = rnd(9, 17);
-    p.className = 'petala';
-    p.style.cssText = `left:${rnd(0, 100)}%;width:${w}px;height:${w * 0.75}px;` +
-      `--dx:${rnd(-90, 90)}px;animation-duration:${rnd(9, 18)}s;animation-delay:${-rnd(0, 18)}s;`;
-    box.appendChild(p);
+  let alturaAtual = 0;
+  function montar() {
+    const h = zona.offsetHeight;
+    if (Math.abs(h - alturaAtual) < 80) return;
+    alturaAtual = h;
+    box.style.setProperty('--h', h + 'px');
+    box.innerHTML = '';
+    const qtd = Math.min(60, Math.max(14, Math.round(h / 110)));
+    for (let i = 0; i < qtd; i++) {
+      const p = document.createElement('span');
+      const w = rnd(9, 17), dur = h / rnd(45, 80);
+      p.className = 'petala';
+      p.style.cssText = `left:${rnd(0, 100)}%;animation-duration:${dur}s;animation-delay:${-rnd(0, dur)}s;`;
+      p.innerHTML = `<i style="width:${w}px;height:${w * 0.75}px;--dx:${rnd(25, 80)}px;animation-duration:${rnd(2.5, 5)}s;animation-delay:${-rnd(0, 4)}s"></i>`;
+      box.appendChild(p);
+    }
   }
-})();
+  montar();
+  if ('ResizeObserver' in window) new ResizeObserver(montar).observe(zona);
+  else addEventListener('load', montar);
+}
 
 /* ---------- MÚSICA (YouTube, invisível) + BOTÃO PLAY/PAUSE ---------- */
-const ICO_PAUSE = '<svg viewBox="0 0 24 24"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>';
-const ICO_PLAY  = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>';
+const ICO_NOTA = '<svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>';
 const btnMusica = $('#btnMusica');
 let ytPlayer = null;
 let retomarAposVideo = false;
@@ -335,7 +350,8 @@ const musicaTocando = () => ytPlayer && ytPlayer.getPlayerState && ytPlayer.getP
 
 function atualizaBtnMusica() {
   const tocando = musicaTocando();
-  btnMusica.innerHTML = tocando ? ICO_PAUSE : ICO_PLAY;
+  if (!btnMusica.firstChild) btnMusica.innerHTML = ICO_NOTA;
+  btnMusica.classList.toggle('tocando', !!tocando);
   btnMusica.setAttribute('aria-label', tocando ? 'Pausar música' : 'Tocar música');
 }
 atualizaBtnMusica();
@@ -471,10 +487,11 @@ if (C.rsvp && C.rsvp.whatsapp) add('confirmar', `
 const rodape = `
 <footer>
   <p style="color:var(--pink-bouganville); font-weight:600; font-size:1.1rem;">${C.hashtag}</p>
-  ${C.logomarca ? `<img src="${C.logomarca}" alt="Logomarca" class="logomarca">` : ''}
+  ${(C.logosRodape || []).filter(Boolean).map(u => `<img src="${u}" alt="Logo" class="logomarca">`).join('')}
 </footer>`;
 
-$('#app').innerHTML = capa + secoes.join('') + rodape;
+$('#app').innerHTML = capa + `<div id="zona-petalas"><div id="petalas" aria-hidden="true"></div>${secoes.join('')}</div>` + rodape;
+iniciarPetalas();
 
 /* Teaser em arquivo: pausa a música enquanto o vídeo toca */
 const teaser = $('#teaserVideo');
